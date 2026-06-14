@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sequential Asymmetric Imitation for Learning Coupled Robot Policies." />
+  <title>Sequential Asymmetric Imitation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg: #f7f7f3;
+      --paper: #ffffff;
+      --ink: #171717;
+      --muted: #606060;
+      --line: #deded7;
+      --soft: #f0f2ff;
+      --accent: #4257ff;
+      --accent2: #0e8f70;
+      --maxw: 1080px;
+      --radius: 22px;
+      --shadow: 0 18px 48px rgba(20, 20, 20, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(66,87,255,0.12), transparent 27%),
+        radial-gradient(circle at 88% 0%, rgba(14,143,112,0.10), transparent 25%),
+        var(--bg);
+      line-height: 1.62;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img, video, iframe, object { width: 100%; display: block; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(247,247,243,0.84);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(222,222,215,0.8);
+    }
+
+    .nav-inner {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 12px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .youtube-box {
+      aspect-ratio: 16 / 9;
+    }
+
+    .youtube-box iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .container {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 22px;
+    }
+
+    .hero {
+      padding: 72px 0 42px;
+      text-align: center;
+    }
+
+    .venue {
+      display: inline-flex;
+      padding: 7px 13px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: #2b40c6;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 auto 18px;
+      max-width: 960px;
+      font-size: clamp(38px, 6.5vw, 76px);
+      line-height: 0.98;
+      letter-spacing: -0.075em;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      max-width: 860px;
+      margin: 0 auto 18px;
+      color: #333;
+      font-size: clamp(18px, 2.2vw, 24px);
+      line-height: 1.38;
+      font-weight: 500;
+    }
+
+    .authors {
+      margin: 15px auto 4px;
+      color: #2d49c8;
+      font-weight: 650;
+    }
+
+    .affiliations {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 22px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 24px 0 32px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 11px 17px;
+      background: #171717;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.16);
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: #171717;
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .btn.secondary:hover { background: #f7f7ff; }
+
+    .teaser {
+      overflow: hidden;
+      border-radius: 30px;
+      background: #111;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.08);
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .teaser:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 56px rgba(20,20,20,0.11);
+    }
+
+    .teaser img {
+      background: #fff;
+      transition: transform 0.35s ease;
+    }
+
+    .teaser:hover img { transform: scale(1.01); }
+
+    .caption {
+      max-width: 900px;
+      margin: 12px auto 0;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    section { padding: 56px 0; }
+
+    .section-title {
+      margin: 0 0 16px;
+      text-align: center;
+      font-size: clamp(28px, 4.2vw, 46px);
+      line-height: 1.06;
+      letter-spacing: -0.055em;
+    }
+
+    .section-lead {
+      max-width: 860px;
+      margin: 0 auto 26px;
+      color: #444;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .grid { display: grid; gap: 18px; }
+    .grid.two { grid-template-columns: repeat(2, 1fr); }
+    .grid.three { grid-template-columns: repeat(3, 1fr); }
+    .grid.four { grid-template-columns: repeat(4, 1fr); }
+
+    .card {
+      background: rgba(255,255,255,0.78);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 8px 24px rgba(20,20,20,0.04);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 34px rgba(20,20,20,0.09);
+      border-color: rgba(66,87,255,0.35);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      letter-spacing: -0.035em;
+      line-height: 1.18;
+    }
+
+    .card p {
+      margin: 0;
+      color: #4a4a4a;
+    }
+
+    .num {
+      width: 34px;
+      height: 34px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--soft);
+      color: #2b40c6;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .video-box {
+      background: #111;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.08);
+      position: relative;
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .video-box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 56px rgba(20,20,20,0.11);
+    }
+
+    .figure-card {
+      margin: 26px auto 24px;
+      overflow: hidden;
+      border-radius: 28px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .figure-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 56px rgba(20,20,20,0.11);
+    }
+
+    .figure-card img {
+      border-radius: 20px;
+      background: #fff;
+      transition: transform 0.35s ease;
+    }
+
+    .figure-card:hover img { transform: scale(1.01); }
+
+    .figure-card .caption {
+      margin: 12px auto 4px;
+      padding: 0 10px;
+    }
+
+    .pdf-figure {
+      height: 560px;
+      border: 0;
+      border-radius: 20px;
+      background: #fff;
+    }
+
+    .method-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .arrow {
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .method-flow.reveal-flow .card,
+    .method-flow.reveal-flow .arrow {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .method-flow.reveal-flow.visible .card,
+    .method-flow.reveal-flow.visible .arrow {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .method-flow.reveal-flow.visible .card:nth-child(1) { transition-delay: 0s; }
+    .method-flow.reveal-flow.visible .arrow:nth-child(2) { transition-delay: 0.08s; }
+    .method-flow.reveal-flow.visible .card:nth-child(3) { transition-delay: 0.16s; }
+    .method-flow.reveal-flow.visible .arrow:nth-child(4) { transition-delay: 0.24s; }
+    .method-flow.reveal-flow.visible .card:nth-child(5) { transition-delay: 0.32s; }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .metric-card {
+      background: rgba(255,255,255,0.86);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(20,20,20,0.04);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 34px rgba(20,20,20,0.09);
+      border-color: rgba(66,87,255,0.35);
+    }
+
+    .metric-value {
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1;
+      letter-spacing: -0.055em;
+      font-weight: 800;
+      color: #1f43d8;
+    }
+
+    .metric-label {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin: 28px auto;
+      width: 100%;
+      align-items: stretch;
+    }
+
+    .chart-card {
+      background: rgba(255,255,255,0.86);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 8px 24px rgba(20,20,20,0.04);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .chart-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 34px rgba(20,20,20,0.09);
+      border-color: rgba(66,87,255,0.35);
+    }
+
+    .chart-card h3 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      letter-spacing: -0.035em;
+      line-height: 1.18;
+    }
+
+    .chart-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 330px;
+    }
+
+    .best { color: #1f43d8; font-weight: 800; }
+
+    pre {
+      background: #111;
+      color: #e8e8e8;
+      padding: 20px;
+      border-radius: 18px;
+      overflow: auto;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    footer {
+      padding: 42px 0 70px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1040px) {
+      .chart-grid {
+        grid-template-columns: 1fr;
+        max-width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .chart-wrap { height: 360px; }
+    }
+
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .grid.two, .grid.three, .grid.four, .method-flow { grid-template-columns: 1fr; }
+      .arrow { transform: rotate(90deg); }
+      .hero { padding-top: 48px; }
+      section { padding: 44px 0; }
+      .metric-grid { grid-template-columns: repeat(2, 1fr); }
+      .pdf-figure { height: 360px; }
+      .chart-grid {
+        grid-template-columns: 1fr;
+      }
+      .chart-wrap { height: 320px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal,
+      .method-flow.reveal-flow .card,
+      .method-flow.reveal-flow .arrow {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+      .card,
+      .metric-card,
+      .chart-card,
+      .btn,
+      .teaser,
+      .figure-card,
+      .video-box,
+      .figure-card img,
+      .teaser img {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark"></span>
+        <span>SAI</span>
+      </a>
+      <div class="nav-links">
+        <a href="#demo">Demo</a>
+        <a href="#problem">Problem</a>
+        <a href="#method">Method</a>
+        <a href="#tasks">Tasks</a>
+        <a href="#results">Results</a>
+        <a href="#paper">Paper</a>
+        <a href="#bibtex">BibTeX</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <header class="hero container">
+      <div class="venue">CoRL 2026 Submission</div>
+      <h1>Sequential Asymmetric Imitation for Learning Coupled Robot Policies</h1>
+      <p class="subtitle">
+        Learning physically coupled dual-robot manipulation from a single-teleoperator curriculum,
+        without synchronized dual-operator demonstrations or explicit inter-robot communication.
+      </p>
+
+      <div class="authors">Anonymous Authors</div>
+      <div class="affiliations">Dual-Robot Manipulation · Imitation Learning · Mobile Manipulation</div>
+
+      <div class="buttons">
+        <a class="btn" href="static/paper/sai_paper.pdf">Paper PDF</a>
+        <a class="btn secondary" href="#demo">Demo Video</a>
+        <a class="btn secondary" href="#method">Method</a>
+        <a class="btn secondary" href="#bibtex">BibTeX</a>
+      </div>
+
+      <div class="teaser">
+        <img src="static/images/teaser.pdf" alt="SAI teaser figure showing local-skill failure and SAI coupled behavior">
+      </div>
+      <p class="caption">
+        Independent policies can execute local primitives, but fail under phase mismatch, partner delay, and physical interaction conflict.
+        SAI teaches coordination through the data-collection curriculum.
+      </p>
+    </header>
+
+    <section id="demo" class="reveal">
+      <div class="container">
+        <h2 class="section-title">Demo Video</h2>
+        <<div class="video-box youtube-box">
+          <iframe
+            src="https://www.youtube.com/embed/vlrJNYdNibc"
+            title="SAI demo video"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <section id="problem" class="reveal">
+      <div class="container">
+        <h2 class="section-title">Why Is This Important?</h2>
+        <p class="section-lead">
+          Collaborative manipulation fails when two individually competent robots are physically coupled through a shared object.
+        </p>
+
+        <div class="grid three">
+          <article class="card">
+            <div class="num">1</div>
+            <h3>Temporal Phase Coupling</h3>
+            <p>Robots must align grasping, pulling, lifting, transporting, lowering, and release despite variable execution timing.</p>
+          </article>
+          <article class="card">
+            <div class="num">2</div>
+            <h3>Partner-Contingent Yielding</h3>
+            <p>A robot must slow, pause, or re-time its motion when the partner is delayed, stalled, obstructed, or out of phase.</p>
+          </article>
+          <article class="card">
+            <div class="num">3</div>
+            <h3>Interaction Conflict</h3>
+            <p>Small timing errors can create large object deformation, internal forces, loss of grasp, or workspace conflict.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="method" class="reveal">
+      <div class="container">
+        <h2 class="section-title">Sequential Asymmetric Imitation</h2>
+        <p class="section-lead">
+          SAI decomposes dual-robot coordination into three single-teleoperator stages.
+        </p>
+
+        <div class="figure-card">
+          <object class="pdf-figure" data="static/images/main.pdf" type="application/pdf">
+            <img src="static/images/main.png" alt="Overview of the Sequential Asymmetric Imitation pipeline">
+          </object>
+          <p class="caption">
+            Overview of SAI. Robot A is first bootstrapped from unilateral demonstrations, Robot B is then trained against the deployed Robot-A policy, and Robot A is finally refined through sparse interventions near coordination failures.
+          </p>
+        </div>
+
+        <div class="method-flow reveal-flow">
+          <article class="card">
+            <div class="num">1</div>
+            <h3>Bootstrap Robot A</h3>
+            <p>Teleoperate Robot A with a compliant human or passive partner. Train basic task execution from unilateral demonstrations.</p>
+          </article>
+
+          <div class="arrow">→</div>
+
+          <article class="card">
+            <div class="num">2</div>
+            <h3>Train Robot B Against A</h3>
+            <p>Freeze and deploy Robot A. Teleoperate Robot B against the learned Robot-A policy to expose B to realistic partner behavior.</p>
+          </article>
+
+          <div class="arrow">→</div>
+
+          <article class="card">
+            <div class="num">3</div>
+            <h3>Intervene on Robot A</h3>
+            <p>Deploy both robots and sparsely correct Robot A near coordination failures, such as early pulling, insufficient yielding, or recovery errors.</p>
+          </article>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+          <h3>Core Idea</h3>
+          <p>
+            SAI induces coordination by shifting the partner distribution seen during imitation:
+            compliant support → deployed learned partner → closed-loop robot-robot interaction with targeted corrections.
+            The policies remain decentralized and do not exchange messages, partner states, future actions, or latent embeddings.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tasks" class="reveal">
+      <div class="container">
+        <h2 class="section-title">Real-World Task Suite</h2>
+        <p class="section-lead">
+          The experiments cover deformable spreading, shared-workspace collection, and rigid-object transport.
+        </p>
+
+        <div class="figure-card">
+          <object class="pdf-figure" data="static/images/tasks.pdf" type="application/pdf">
+            <img src="static/images/tasks.png" alt="Real-world dual-robot manipulation tasks">
+          </object>
+          <p class="caption">
+            Real-world task suite: bed-throw spreading, tablecloth spreading, laundry collection, and painting transport.
+          </p>
+        </div>
+
+        <div class="grid four">
+          <article class="card">
+            <h3>Bed-throw Spreading</h3>
+            <p>Deformable object alignment with handoff, retreat, transport, and placement phases.</p>
+          </article>
+          <article class="card">
+            <h3>Tablecloth Spreading</h3>
+            <p>Coordinated grasping and spreading under cloth tension and partner-delay perturbations.</p>
+          </article>
+          <article class="card">
+            <h3>Laundry Collection</h3>
+            <p>Asynchronous shared-workspace coordination with approach, collection, and delivery.</p>
+          </article>
+          <article class="card">
+            <h3>Painting Transport</h3>
+            <p>Rigid-object cooperative transport requiring synchronized grasping, lifting, motion, and lowering.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="reveal">
+      <div class="container">
+        <h2 class="section-title">Results</h2>
+        <p class="section-lead">
+          SAI improves both task completion and process-level coupling metrics over Independent Imitation and Partner-Conditioned Imitation.
+        </p>
+
+        <div class="metric-grid">
+          <div class="metric-card">
+            <div class="metric-value"><span class="count-up" data-target="70.0">0</span>%</div>
+            <div class="metric-label">Best task success</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-value"><span class="count-up" data-target="74.7">0</span>%</div>
+            <div class="metric-label">Painting phase sync.</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-value"><span class="count-up" data-target="71.7">0</span>%</div>
+            <div class="metric-label">Laundry yield / wait</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-value"><span class="count-up" data-target="41.6">0</span>pp</div>
+            <div class="metric-label">Max yield gain</div>
+          </div>
+        </div>
+
+        <div class="chart-grid" id="charts">
+          <div class="chart-card">
+            <h3>Task Success</h3>
+            <p>Rollout-level task completion across four real-world tasks.</p>
+            <div class="chart-wrap">
+              <canvas id="successChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h3>Phase Synchronization</h3>
+            <p>Event-level phase alignment across task-specific checkpoints.</p>
+            <div class="chart-wrap">
+              <canvas id="phaseChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h3>Yield / Wait</h3>
+            <p>Partner-contingent slowing, waiting, and resuming behavior.</p>
+            <div class="chart-wrap">
+              <canvas id="yieldChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid two" style="margin-top: 20px;">
+          <article class="card">
+            <h3>Partner Delay Test</h3>
+            <p>
+              When Robot B is paused during tablecloth spreading, Independent Imitation continues pulling and destabilizes the cloth.
+              SAI slows, waits, and resumes after the partner recovers.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Backbone Compatibility</h3>
+            <p>
+              SAI improves over Independent Imitation with both ACT and Diffusion Policy, indicating that the main contribution is the data curriculum rather than a specific action decoder.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="paper" class="reveal">
+      <div class="container">
+        <h2 class="section-title">Paper Summary</h2>
+
+        <div class="grid two">
+          <article class="card">
+            <h3>Abstract</h3>
+            <p>
+              We study physically coupled dual-robot manipulation with two bimanual mobile manipulators.
+              SAI is a single-teleoperator curriculum that trains Robot A from unilateral demonstrations,
+              trains Robot B against the deployed Robot-A policy, and refines Robot A through sparse interventions near coordination failures.
+              Across rigid and deformable real-world tasks, SAI improves success, phase synchronization, and partner-contingent yielding.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3>Contributions</h3>
+            <p>
+              <strong>1.</strong> A single-teleoperator curriculum for coupled dual-robot imitation learning.<br />
+              <strong>2.</strong> A partner-distribution shift mechanism that induces yielding and phase alignment.<br />
+              <strong>3.</strong> Real-world validation on deformable spreading, laundry collection, and painting transport.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="bibtex" class="reveal">
+      <div class="container">
+        <h2 class="section-title">BibTeX</h2>
+        <pre><code>@inproceedings{sai2026,
+  title     = {Sequential Asymmetric Imitation for Learning Coupled Robot Policies},
+  author    = {Anonymous Authors},
+  booktitle = {Conference on Robot Learning},
+  year      = {2026}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      Replace placeholders with final teaser, demo video, paper PDF, author list, and code link before release.
+    </div>
+  </footer>
+
+  <script>
+    // Re-playable section reveal animation
+    const revealElements = document.querySelectorAll(".reveal");
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        } else {
+          entry.target.classList.remove("visible");
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealElements.forEach((el) => revealObserver.observe(el));
+
+    // Re-playable method flow stagger animation
+    const flow = document.querySelector(".reveal-flow");
+
+    if (flow) {
+      const flowObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            flow.classList.add("visible");
+          } else {
+            flow.classList.remove("visible");
+          }
+        });
+      }, { threshold: 0.25 });
+
+      flowObserver.observe(flow);
+    }
+
+    // Re-playable count-up metrics
+    const countUpElements = document.querySelectorAll(".count-up");
+    const countAnimations = new WeakMap();
+
+    function animateCount(el) {
+      if (countAnimations.get(el)) {
+        cancelAnimationFrame(countAnimations.get(el));
+      }
+
+      const target = parseFloat(el.dataset.target);
+      const duration = 900;
+      const startTime = performance.now();
+
+      function update(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = (target * eased).toFixed(1);
+
+        if (progress < 1) {
+          countAnimations.set(el, requestAnimationFrame(update));
+        } else {
+          el.textContent = target.toFixed(1);
+          countAnimations.delete(el);
+        }
+      }
+
+      el.textContent = "0";
+      countAnimations.set(el, requestAnimationFrame(update));
+    }
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const el = entry.target;
+
+        if (entry.isIntersecting) {
+          animateCount(el);
+        } else {
+          if (countAnimations.get(el)) {
+            cancelAnimationFrame(countAnimations.get(el));
+            countAnimations.delete(el);
+          }
+          el.textContent = "0";
+        }
+      });
+    }, { threshold: 0.6 });
+
+    countUpElements.forEach((el) => countObserver.observe(el));
+
+    const taskLabels = ["Bed-throw", "Tablecloth", "Laundry", "Painting"];
+    let chartInstances = [];
+
+    const sharedChartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1200,
+        easing: "easeOutQuart"
+      },
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: {
+            boxWidth: 14,
+            boxHeight: 14,
+            padding: 16,
+            color: "#444",
+            font: {
+              family: "Inter",
+              size: 12,
+              weight: "600"
+            }
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.dataset.label + ": " + context.parsed.y.toFixed(1) + "%";
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: {
+            color: "#555",
+            font: {
+              family: "Inter",
+              size: 12,
+              weight: "600"
+            }
+          }
+        },
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            color: "#555",
+            callback: function(value) {
+              return value + "%";
+            },
+            font: {
+              family: "Inter",
+              size: 12
+            }
+          },
+          grid: { color: "rgba(0,0,0,0.06)" }
+        }
+      }
+    };
+
+    function makeBarChart(canvasId, independentData, partnerConditionedData, saiData) {
+      const ctx = document.getElementById(canvasId);
+      if (!ctx) return;
+
+      return new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: taskLabels,
+          datasets: [
+            {
+              label: "Independent Imitation",
+              data: independentData,
+              backgroundColor: "rgba(120, 120, 120, 0.38)",
+              borderColor: "rgba(120, 120, 120, 0.82)",
+              borderWidth: 1,
+              borderRadius: 8,
+              borderSkipped: false
+            },
+            {
+              label: "Partner-Conditioned Imitation",
+              data: partnerConditionedData,
+              backgroundColor: "rgba(14, 143, 112, 0.52)",
+              borderColor: "rgba(14, 143, 112, 0.95)",
+              borderWidth: 1,
+              borderRadius: 8,
+              borderSkipped: false
+            },
+            {
+              label: "SAI",
+              data: saiData,
+              backgroundColor: "rgba(66, 87, 255, 0.68)",
+              borderColor: "rgba(66, 87, 255, 1)",
+              borderWidth: 1,
+              borderRadius: 8,
+              borderSkipped: false
+            }
+          ]
+        },
+        options: sharedChartOptions
+      });
+    }
+
+    function destroyCharts() {
+      chartInstances.forEach((chart) => chart.destroy());
+      chartInstances = [];
+    }
+
+    function initCharts() {
+      destroyCharts();
+
+      chartInstances.push(makeBarChart(
+        "successChart",
+        [23.3, 43.3, 50.0, 33.3],
+        [36.7, 60.0, 63.3, 46.7],
+        [53.3, 66.7, 70.0, 56.7]
+      ));
+
+      chartInstances.push(makeBarChart(
+        "phaseChart",
+        [30.8, 54.4, 51.7, 42.7],
+        [60.8, 67.8, 68.3, 67.3],
+        [62.5, 68.9, 73.3, 74.7]
+      ));
+
+      chartInstances.push(makeBarChart(
+        "yieldChart",
+        [26.7, 46.7, 31.7, 34.4],
+        [35.0, 61.7, 48.3, 48.9],
+        [68.3, 70.0, 71.7, 68.9]
+      ));
+
+      chartInstances = chartInstances.filter(Boolean);
+    }
+
+    const chartsSection = document.querySelector("#charts");
+
+    if (chartsSection) {
+      let chartAnimationReady = true;
+
+      const chartObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && chartAnimationReady) {
+            initCharts();
+            chartAnimationReady = false;
+          }
+
+          if (!entry.isIntersecting) {
+            chartAnimationReady = true;
+          }
+        });
+      }, { threshold: 0.35 });
+
+      chartObserver.observe(chartsSection);
+    }
+  </script>
+</body>
+</html>
