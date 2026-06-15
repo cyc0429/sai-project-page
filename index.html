@@ -98,6 +98,14 @@
     }
 
     .nav-links a:hover { color: var(--ink); }
+    .nav-links a:focus-visible,
+    .btn:focus-visible,
+    .authors a:focus-visible,
+    .copy-btn:focus-visible {
+      outline: 2px solid rgba(66, 87, 255, 0.55);
+      outline-offset: 3px;
+      border-radius: 10px;
+    }
 
     .container {
       max-width: var(--maxw);
@@ -106,8 +114,18 @@
     }
 
     .hero {
-      padding: 72px 0 42px;
+      padding: 84px 0 42px;
       text-align: center;
+    }
+
+    .hero-kicker {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: #667085;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .venue {
@@ -122,57 +140,112 @@
     }
 
     h1 {
-      margin: 0 auto 18px;
-      max-width: 960px;
-      font-size: clamp(38px, 6.5vw, 76px);
-      line-height: 0.98;
+      margin: 0 auto 10px;
+      max-width: 720px;
+      font-size: clamp(44px, 6.4vw, 84px);
+      line-height: 0.96;
       letter-spacing: -0.075em;
       font-weight: 800;
+      text-wrap: balance;
+    }
+
+    .hero-title {
+      margin: 0 auto;
+      display: block;
+      background: linear-gradient(135deg, #121212 0%, #3250e6 68%, #0e8f70 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-paper-title {
+      max-width: 760px;
+      margin: 0 auto 22px;
+      color: #1f2937;
+      font-size: clamp(18px, 2.2vw, 24px);
+      line-height: 1.45;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      text-wrap: balance;
     }
 
     .subtitle {
-      max-width: 860px;
-      margin: 0 auto 18px;
-      color: #333;
-      font-size: clamp(18px, 2.2vw, 24px);
-      line-height: 1.38;
-      font-weight: 500;
+      max-width: 760px;
+      margin: 0 auto 28px;
+      color: #4b5563;
+      font-size: clamp(16px, 1.8vw, 19px);
+      line-height: 1.58;
+      font-weight: 450;
     }
 
     .authors {
-      margin: 15px auto 4px;
-      color: #2d49c8;
-      font-weight: 650;
+      margin: 0 auto 4px;
+      color: #1f2937;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .authors a {
+      text-decoration: underline;
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 0.14em;
+    }
+
+    .authors a:hover {
+      color: #1f43d8;
     }
 
     .affiliations {
       color: var(--muted);
-      font-size: 15px;
-      margin-bottom: 22px;
+      font-size: 14px;
+      margin: 10px 0 24px;
+    }
+
+    .author-note {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
     }
 
     .buttons {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 12px;
-      margin: 24px 0 32px;
+      gap: 10px;
+      margin: 0 0 26px;
     }
 
     .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
       border-radius: 999px;
       padding: 11px 17px;
       background: #171717;
       color: #fff;
       font-size: 14px;
       font-weight: 800;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.12);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      box-shadow: none;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-icon {
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    .btn-meta {
+      padding-left: 8px;
+      margin-left: 2px;
+      border-left: 1px solid rgba(255,255,255,0.22);
+      color: rgba(255,255,255,0.78);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
     }
 
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 14px 30px rgba(0,0,0,0.16);
     }
 
     .btn.secondary {
@@ -180,6 +253,11 @@
       color: #171717;
       border: 1px solid var(--line);
       box-shadow: none;
+    }
+
+    .btn.secondary .btn-meta {
+      border-left-color: rgba(23,23,23,0.12);
+      color: #666;
     }
 
     .btn.secondary:hover { background: #f7f7ff; }
@@ -214,6 +292,16 @@
     }
 
     section { padding: 56px 0; }
+
+    .section-kicker {
+      margin: 0 0 10px;
+      text-align: center;
+      color: #3148d5;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
 
     .section-title {
       margin: 0 0 16px;
@@ -261,6 +349,23 @@
     .card p {
       margin: 0;
       color: #4a4a4a;
+    }
+
+    .insight-card {
+      margin-top: 20px;
+      padding: 24px 26px;
+      background:
+        linear-gradient(135deg, rgba(66,87,255,0.10), rgba(14,143,112,0.08)),
+        rgba(255,255,255,0.88);
+      border-color: rgba(66,87,255,0.18);
+    }
+
+    .insight-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .spaced-grid {
+      margin-top: 20px;
     }
 
     .num {
@@ -324,6 +429,7 @@
       border: 0;
       border-radius: 20px;
       background: #fff;
+      object-fit: contain;
     }
 
     .method-flow {
@@ -453,6 +559,59 @@
       line-height: 1.5;
     }
 
+    .bibtex-card {
+      background: rgba(255,255,255,0.86);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .bibtex-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .bibtex-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .copy-btn {
+      border: 1px solid rgba(66,87,255,0.18);
+      background: rgba(66,87,255,0.08);
+      color: #243fd2;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(66,87,255,0.12);
+      border-color: rgba(66,87,255,0.28);
+    }
+
+    .copy-btn.is-copied {
+      background: rgba(14,143,112,0.12);
+      border-color: rgba(14,143,112,0.28);
+      color: #0e8f70;
+    }
+
+    .copy-btn.is-error {
+      background: rgba(176,52,52,0.10);
+      border-color: rgba(176,52,52,0.20);
+      color: #a12c2c;
+    }
+
     footer {
       padding: 42px 0 70px;
       color: var(--muted);
@@ -482,13 +641,28 @@
     }
 
     @media (max-width: 860px) {
-      .nav-links { display: none; }
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .nav-links {
+        display: flex;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        scrollbar-width: thin;
+      }
       .grid.two, .grid.three, .grid.four, .method-flow { grid-template-columns: 1fr; }
       .arrow { transform: rotate(90deg); }
       .hero { padding-top: 48px; }
       section { padding: 44px 0; }
       .metric-grid { grid-template-columns: repeat(2, 1fr); }
       .pdf-figure { height: 360px; }
+      .bibtex-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
       .chart-grid {
         grid-template-columns: 1fr;
       }
@@ -540,26 +714,43 @@
 
   <main id="top">
     <header class="hero container">
-      <h1>Sequential Asymmetric Imitation for Learning Coupled Robot Policies</h1>
-      <p class="subtitle">
-        Learning physically coupled dual-robot manipulation from a single-teleoperator curriculum,
-        without synchronized dual-operator demonstrations or explicit inter-robot communication.
-      </p>
-
+      <div class="hero-kicker">Collaborative Dual-Robot Learning</div>
+      <h1>
+        <span class="hero-title">Robots that Collaborate</span>
+      </h1>
+      <div class="hero-paper-title">Sequential Asymmetric Imitation for Learning Coupled Robot Policies</div>
       <div class="authors">
-        Yincong Chen, Ranpeng Qiu, Zihao Li, Yanan Zhou, Guoqiang Ren, Weiming Zhi
+        Yincong Chen<sup>†</sup>, Ranpeng Qiu<sup>†</sup>, Zihao Li, Yanan Zhou, Guoqiang Ren,
+        <a href="https://weimingzhi.com" target="_blank" rel="noopener noreferrer">Weiming Zhi<sup>*</sup></a>
       </div>
+      <div class="author-note"><sup>†</sup> Equal contribution &nbsp; <sup>*</sup> Corresponding author</div>
       <div class="affiliations">Dual-Robot Manipulation · Imitation Learning · Mobile Manipulation</div>
 
       <div class="buttons">
-        <a class="btn" href="static/paper/sai_paper.pdf">Paper PDF</a>
-        <a class="btn secondary" href="#demo">Demo Video</a>
-        <a class="btn secondary" href="#method">Method</a>
-        <a class="btn secondary" href="#bibtex">BibTeX</a>
+        <a class="btn" href="static/paper/sai_paper.pdf" download>
+          <span class="btn-icon">↓</span>
+          <span>Paper PDF</span>
+          <span class="btn-meta">27 MB</span>
+        </a>
+        <a class="btn secondary" href="#demo">
+          <span class="btn-icon">▶</span>
+          <span>Demo Video</span>
+        </a>
+        <a class="btn secondary" href="#method">
+          <span class="btn-icon">◎</span>
+          <span>Method</span>
+        </a>
+        <a class="btn secondary" href="#bibtex">
+          <span class="btn-icon">⧉</span>
+          <span>BibTeX</span>
+        </a>
       </div>
+      <p class="subtitle">
+        Coupled dual-robot manipulation from a single-teleoperator curriculum.
+      </p>
 
       <div class="teaser">
-        <img src="static/images/teaser.png" alt="SAI teaser figure showing local-skill failure and SAI coupled behavior">
+        <img src="static/images/teaser.png" alt="SAI teaser figure showing local-skill failure and SAI coupled behavior" decoding="async">
       </div>
       <p class="caption">
         Independent policies can execute local primitives, but fail under phase mismatch, partner delay, and physical interaction conflict.
@@ -569,11 +760,13 @@
 
     <section id="demo" class="reveal">
       <div class="container">
+        <p class="section-kicker">Project Overview</p>
         <h2 class="section-title">Demo Video</h2>
-        <<div class="video-box youtube-box">
+        <div class="video-box youtube-box">
           <iframe
             src="https://www.youtube.com/embed/vlrJNYdNibc"
             title="SAI demo video"
+            loading="lazy"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen>
@@ -584,6 +777,7 @@
 
     <section id="problem" class="reveal">
       <div class="container">
+        <p class="section-kicker">Challenge</p>
         <h2 class="section-title">Why Is This Important?</h2>
         <p class="section-lead">
           Collaborative manipulation fails when two individually competent robots are physically coupled through a shared object.
@@ -611,13 +805,14 @@
 
     <section id="method" class="reveal">
       <div class="container">
+        <p class="section-kicker">Method</p>
         <h2 class="section-title">Sequential Asymmetric Imitation</h2>
         <p class="section-lead">
           SAI decomposes dual-robot coordination into three single-teleoperator stages.
         </p>
 
         <div class="figure-card">
-          <img class="pdf-figure" src="static/images/main.png" alt="Overview of the Sequential Asymmetric Imitation pipeline">
+          <img class="pdf-figure" src="static/images/main.png" alt="Overview of the Sequential Asymmetric Imitation pipeline" loading="lazy" decoding="async">
           <p class="caption">
             Overview of SAI. Robot A is first bootstrapped from unilateral demonstrations, Robot B is then trained against the deployed Robot-A policy, and Robot A is finally refined through sparse interventions near coordination failures.
           </p>
@@ -647,7 +842,7 @@
           </article>
         </div>
 
-        <div class="card" style="margin-top: 20px;">
+        <div class="card insight-card">
           <h3>Core Idea</h3>
           <p>
             SAI induces coordination by shifting the partner distribution seen during imitation:
@@ -660,13 +855,14 @@
 
     <section id="tasks" class="reveal">
       <div class="container">
+        <p class="section-kicker">Benchmarks</p>
         <h2 class="section-title">Real-World Task Suite</h2>
         <p class="section-lead">
           The experiments cover deformable spreading, shared-workspace collection, and rigid-object transport.
         </p>
 
         <div class="figure-card">
-          <img class="pdf-figure" src="static/images/tasks.png" alt="Real-world dual-robot manipulation tasks">
+          <img class="pdf-figure" src="static/images/tasks.png" alt="Real-world dual-robot manipulation tasks" loading="lazy" decoding="async">
           <p class="caption">
             Real-world task suite: bed-throw spreading, tablecloth spreading, laundry collection, and painting transport.
           </p>
@@ -695,6 +891,7 @@
 
     <section id="results" class="reveal">
       <div class="container">
+        <p class="section-kicker">Empirical Results</p>
         <h2 class="section-title">Results</h2>
         <p class="section-lead">
           SAI improves both task completion and process-level coupling metrics over Independent Imitation and Partner-Conditioned Imitation.
@@ -748,7 +945,7 @@
           </div>
         </div>
 
-        <div class="grid two" style="margin-top: 20px;">
+        <div class="grid two spaced-grid">
           <article class="card">
             <h3>Partner Delay Test</h3>
             <p>
@@ -768,6 +965,7 @@
 
     <section id="paper" class="reveal">
       <div class="container">
+        <p class="section-kicker">Paper at a Glance</p>
         <h2 class="section-title">Paper Summary</h2>
 
         <div class="grid two">
@@ -795,13 +993,20 @@
 
     <section id="bibtex" class="reveal">
       <div class="container">
+        <p class="section-kicker">Citation</p>
         <h2 class="section-title">BibTeX</h2>
-        <pre><code>@article{sai2026,
+        <div class="bibtex-card">
+          <div class="bibtex-head">
+            <p>Copy the citation directly into your paper, website, or project README.</p>
+            <button class="copy-btn" type="button" id="copyBibtexBtn" aria-label="Copy BibTeX citation">⧉ Copy BibTeX</button>
+          </div>
+          <pre><code id="bibtexContent">@article{sai2026,
   title   = {Sequential Asymmetric Imitation for Learning Coupled Robot Policies},
   author  = {Yincong Chen and Ranpeng Qiu and Zihao Li and Yanan Zhou and Guoqiang Ren and Weiming Zhi},
   journal = {arXiv preprint arXiv:2026.xxxxx},
   year    = {2026}
 }</code></pre>
+        </div>
       </div>
     </section>
   </main>
@@ -997,29 +1202,65 @@
       chartInstances = [];
     }
 
+    const chartConfigs = [
+      {
+        canvasId: "successChart",
+        datasets: [
+          [23.3, 43.3, 50.0, 33.3],
+          [36.7, 60.0, 63.3, 46.7],
+          [53.3, 66.7, 70.0, 56.7]
+        ]
+      },
+      {
+        canvasId: "phaseChart",
+        datasets: [
+          [30.8, 54.4, 51.7, 42.7],
+          [60.8, 67.8, 68.3, 67.3],
+          [62.5, 68.9, 73.3, 74.7]
+        ]
+      },
+      {
+        canvasId: "yieldChart",
+        datasets: [
+          [26.7, 46.7, 31.7, 34.4],
+          [35.0, 61.7, 48.3, 48.9],
+          [68.3, 70.0, 71.7, 68.9]
+        ]
+      }
+    ];
+
+    let chartAnimationTimers = [];
+
+    function clearChartAnimationTimers() {
+      chartAnimationTimers.forEach((timer) => window.clearTimeout(timer));
+      chartAnimationTimers = [];
+    }
+
     function initCharts() {
+      clearChartAnimationTimers();
       destroyCharts();
 
-      chartInstances.push(makeBarChart(
-        "successChart",
-        [23.3, 43.3, 50.0, 33.3],
-        [36.7, 60.0, 63.3, 46.7],
-        [53.3, 66.7, 70.0, 56.7]
-      ));
+      chartConfigs.forEach((config, index) => {
+        const zeroData = config.datasets.map((dataset) => dataset.map(() => 0));
+        const chart = makeBarChart(
+          config.canvasId,
+          zeroData[0],
+          zeroData[1],
+          zeroData[2]
+        );
 
-      chartInstances.push(makeBarChart(
-        "phaseChart",
-        [30.8, 54.4, 51.7, 42.7],
-        [60.8, 67.8, 68.3, 67.3],
-        [62.5, 68.9, 73.3, 74.7]
-      ));
+        if (!chart) return;
+        chartInstances.push(chart);
 
-      chartInstances.push(makeBarChart(
-        "yieldChart",
-        [26.7, 46.7, 31.7, 34.4],
-        [35.0, 61.7, 48.3, 48.9],
-        [68.3, 70.0, 71.7, 68.9]
-      ));
+        const timer = window.setTimeout(() => {
+          chart.data.datasets[0].data = [...config.datasets[0]];
+          chart.data.datasets[1].data = [...config.datasets[1]];
+          chart.data.datasets[2].data = [...config.datasets[2]];
+          chart.update();
+        }, 120 + index * 180);
+
+        chartAnimationTimers.push(timer);
+      });
 
       chartInstances = chartInstances.filter(Boolean);
     }
@@ -1037,12 +1278,56 @@
           }
 
           if (!entry.isIntersecting) {
+            clearChartAnimationTimers();
+            destroyCharts();
             chartAnimationReady = true;
           }
         });
       }, { threshold: 0.35 });
 
       chartObserver.observe(chartsSection);
+    }
+
+    const copyBibtexButton = document.querySelector("#copyBibtexBtn");
+    const bibtexContent = document.querySelector("#bibtexContent");
+
+    async function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+
+      const tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+      tempTextArea.setAttribute("readonly", "");
+      tempTextArea.style.position = "absolute";
+      tempTextArea.style.left = "-9999px";
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempTextArea);
+    }
+
+    if (copyBibtexButton && bibtexContent) {
+      const defaultCopyLabel = copyBibtexButton.textContent;
+
+      copyBibtexButton.addEventListener("click", async () => {
+        try {
+          await copyText(bibtexContent.textContent.trim());
+          copyBibtexButton.textContent = "✓ Copied";
+          copyBibtexButton.classList.remove("is-error");
+          copyBibtexButton.classList.add("is-copied");
+        } catch (error) {
+          copyBibtexButton.textContent = "Copy failed";
+          copyBibtexButton.classList.remove("is-copied");
+          copyBibtexButton.classList.add("is-error");
+        }
+
+        window.setTimeout(() => {
+          copyBibtexButton.textContent = defaultCopyLabel;
+          copyBibtexButton.classList.remove("is-copied", "is-error");
+        }, 1800);
+      });
     }
   </script>
 </body>
