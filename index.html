@@ -547,7 +547,13 @@
         without synchronized dual-operator demonstrations or explicit inter-robot communication.
       </p>
 
-      <div class="authors">Anonymous Authors</div>
+      <div class="authors">
+        Yincong Chen*, Ranpeng Qiu*, Zihao Li, Yanan Zhou, Guoqiang Ren, Weiming Zhi†
+      </div>
+
+      <div class="affiliations">
+        * Equal contribution &nbsp;&nbsp; † Corresponding author
+      </div>
       <div class="affiliations">Dual-Robot Manipulation · Imitation Learning · Mobile Manipulation</div>
 
       <div class="buttons">
@@ -558,7 +564,7 @@
       </div>
 
       <div class="teaser">
-        <img src="static/images/teaser.pdf" alt="SAI teaser figure showing local-skill failure and SAI coupled behavior">
+        <img src="static/images/teaser.png" alt="SAI teaser figure showing local-skill failure and SAI coupled behavior">
       </div>
       <p class="caption">
         Independent policies can execute local primitives, but fail under phase mismatch, partner delay, and physical interaction conflict.
@@ -616,9 +622,7 @@
         </p>
 
         <div class="figure-card">
-          <object class="pdf-figure" data="static/images/main.pdf" type="application/pdf">
-            <img src="static/images/main.png" alt="Overview of the Sequential Asymmetric Imitation pipeline">
-          </object>
+          <img class="pdf-figure" src="static/images/main.png" alt="Overview of the Sequential Asymmetric Imitation pipeline">
           <p class="caption">
             Overview of SAI. Robot A is first bootstrapped from unilateral demonstrations, Robot B is then trained against the deployed Robot-A policy, and Robot A is finally refined through sparse interventions near coordination failures.
           </p>
@@ -667,9 +671,7 @@
         </p>
 
         <div class="figure-card">
-          <object class="pdf-figure" data="static/images/tasks.pdf" type="application/pdf">
-            <img src="static/images/tasks.png" alt="Real-world dual-robot manipulation tasks">
-          </object>
+          <img class="pdf-figure" src="static/images/tasks.png" alt="Real-world dual-robot manipulation tasks">
           <p class="caption">
             Real-world task suite: bed-throw spreading, tablecloth spreading, laundry collection, and painting transport.
           </p>
@@ -799,11 +801,11 @@
     <section id="bibtex" class="reveal">
       <div class="container">
         <h2 class="section-title">BibTeX</h2>
-        <pre><code>@inproceedings{sai2026,
-  title     = {Sequential Asymmetric Imitation for Learning Coupled Robot Policies},
-  author    = {Anonymous Authors},
-  booktitle = {Conference on Robot Learning},
-  year      = {2026}
+        <pre><code>@article{sai2026,
+  title   = {Sequential Asymmetric Imitation for Learning Coupled Robot Policies},
+  author  = {Yincong Chen and Ranpeng Qiu and Zihao Li and Yanan Zhou and Guoqiang Ren and Weiming Zhi},
+  journal = {arXiv preprint arXiv:2026.xxxxx},
+  year    = {2026}
 }</code></pre>
       </div>
     </section>
